@@ -1,0 +1,25 @@
+<ion-grid>
+  <ion-row>
+    <ng-container *ngIf="isEditing; then editing; else static"></ng-container>
+
+    <ng-template #editing>
+      <ion-col col-9>
+        <ion-input type="text" [(ngModel)]="newBody" name="body" placeholder="text input">
+        </ion-input>
+      </ion-col>
+      <ion-col col-3>
+        <ion-icon name="checkbox-outline" (click)="update()"></ion-icon>
+        <ion-icon name="close-circle" (click)="cancel()"></ion-icon>
+      </ion-col>
+    </ng-template>
+    <ng-template #static>
+      <ion-col col-9>
+        {{ comment.body }}
+      </ion-col>
+      <ion-col col-3>
+        <ion-icon name="trash" (click)="remove()"></ion-icon>
+        <ion-icon name="create" (click)="edit()"></ion-icon>
+      </ion-col>
+    </ng-template>
+  </ion-row>
+</ion-grid>

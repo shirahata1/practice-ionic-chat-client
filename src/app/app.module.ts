@@ -1,11 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+
+import { ChatPageModule } from '../pages/chat/chat.module';
 
 @NgModule({
   declarations: [
@@ -14,6 +18,9 @@ import { HomePage } from '../pages/home/home';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
+    HttpModule,
+    ChatPageModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

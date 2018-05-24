@@ -24,5 +24,8 @@
   "compileOnSave": false,
   "atom": {
     "rewriteTsconfig": false
-  }
+  },
+  "files": [
+    "./typings/declarations.d.ts"
+  ]
 }
