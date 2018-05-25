@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable, Subscription } from 'rxjs/Rx';
 import * as _ from 'lodash';
 import { ChatService } from './chat.service';
+import { HomePage } from '../home/home';
 import { AccountService } from '../../lib/services/account.service';
+import { CommentService } from '../../lib/resources/comment.service';
+import { Comment } from '../../lib/models/comment.model';
 
 /**
  * Generated class for the ChatPage page.
@@ -12,12 +14,6 @@ import { AccountService } from '../../lib/services/account.service';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
-export interface Comment {
-  id?: number;
-  body: string;
-  created_at?: string;
-}
 
 @IonicPage()
 @Component({
@@ -33,31 +29,32 @@ export class ChatPage implements OnInit, OnDestroy {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private http: HttpClient,
     public service: ChatService,
     public accountService: AccountService,
+    public commentService: CommentService,
   ) {}
 
   ngOnInit() {
-    // this.subscription = Observable.timer(0, 4000)
-    //   .switchMap(_ =>this.http.get<Comment[]>(`${SETTINGS['SERVICE_URL']}api/v1/comments/`, { headers: this.getHeaders() }))
-    //   .subscribe(comments => this.comments = comments );
+    this.subscription = Observable.timer(0, 4000)
+      .switchMap(_ => this.commentService.search<Comment[]>({}))
+      .map(comments => _.reverse(comments))
+      .subscribe(comments => this.comments = comments);
   }
 
   ngOnDestroy() {
-    // this.subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   create() {
-    this.http.post<Comment>(`${SETTINGS['SERVICE_URL']}api/v1/comments/`, this.newComment)
+    this.commentService.create<Comment>(this.newComment)
       .subscribe((comment) => {
-        this.comments.unshift(comment);
+        this.comments.push(comment);
         this.newComment['body'] = '';
       });
   }
 
   update(comment: Comment) {
-    this.http.put<Comment>(`${SETTINGS['SERVICE_URL']}api/v1/comments/${comment.id}`, comment)
+    this.commentService.update<Comment>(comment.id, comment)
       .subscribe((updatedComment) => {
         const i = _.findIndex(this.comments, (_comment) => _comment.id === updatedComment.id);
         this.comments[i] = updatedComment;
@@ -65,7 +62,7 @@ export class ChatPage implements OnInit, OnDestroy {
   }
 
   remove(comment: Comment) {
-    this.http.delete<Comment>(`${SETTINGS['SERVICE_URL']}api/v1/comments/${comment.id}`)
+    this.commentService.remove<Comment>(comment.id)
       .subscribe((deletedComment) => {
         const i = _.findIndex(this.comments, (_comment) => _comment.id === deletedComment.id);
         this.comments.splice(i, 1);
@@ -76,13 +73,9 @@ export class ChatPage implements OnInit, OnDestroy {
     return comment.id;
   }
 
-  private getHeaders(): HttpHeaders {
-
-    const headers = {
-      'Content-Type':  'application/json',
-    };
-
-    return new HttpHeaders(headers);
+  logout() {
+    this.accountService.logout()
+      .then(() => this.navCtrl.setRoot(HomePage));
   }
 
 }

@@ -20,7 +20,6 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.accountService.isLoggedIn);
     if (this.accountService.isLoggedIn) { this.navCtrl.setRoot(ChatPage); }
   }
 

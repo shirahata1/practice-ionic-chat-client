@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Comment } from './chat';
+import { Comment } from '../../lib/models/comment.model';
 import { ChatService } from './chat.service';
+import { AccountService } from '../../lib/services/account.service';
 
 @Component({
   selector: 'chat-comment',
@@ -15,6 +16,7 @@ export class ChatCommentComponent {
 
   constructor(
     public chatService: ChatService,
+    private accountService: AccountService,
   ) {}
 
   edit() {
@@ -35,6 +37,11 @@ export class ChatCommentComponent {
     this.comment.body = this.newBody;
     this.chatService.editingId$.next();
     this.onUpdate.emit(this.comment);
+  }
+
+  isMine(): boolean {
+    if (!this.comment.user) { return false; }
+    return this.accountService.id === this.comment.user.id;
   }
 
 }

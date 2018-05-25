@@ -1,7 +1,7 @@
 import { User } from './user.model';
 
 export interface Comment {
-  id: number;
+  id?: number;
   body: string;
-  user: User;
+  user?: User;
 }

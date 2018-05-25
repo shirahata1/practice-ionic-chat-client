@@ -24,18 +24,18 @@ export abstract class BaseService {
     return this.http.post<T>(this.getUrl(options.pathOptions), params, { headers: headers });
   }
 
-  update<T>(id: string, params: any, options: any = {}): Observable<T> {
+  update<T>(id: number, params: any, options: any = {}): Observable<T> {
     const headers = this.getHeaders(options.header);
 
     return this.http
-      .put<T>(this.getUrl(id), params, { headers: headers });
+      .put<T>(this.getUrl(_.toString(id)), params, { headers: headers });
   }
 
-  remove<T>(id: string, options: any = {}): Observable<T> {
+  remove<T>(id: number, options: any = {}): Observable<T> {
     const headers = this.getHeaders(options.header);
 
     return this.http
-      .delete<T>(this.getUrl(id), { headers: headers });
+      .delete<T>(this.getUrl(_.toString(id)), { headers: headers });
   }
 
   protected getUrl(...paths: string[]): string {
