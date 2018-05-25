@@ -8,8 +8,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-
 import { ChatPageModule } from '../pages/chat/chat.module';
+import { ServiceModule } from '../lib/modules/service.module';
+import { ResourceModule } from '../lib/modules/resource.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,9 @@ import { ChatPageModule } from '../pages/chat/chat.module';
     HttpClientModule,
     HttpModule,
     ChatPageModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    ServiceModule,
+    ResourceModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

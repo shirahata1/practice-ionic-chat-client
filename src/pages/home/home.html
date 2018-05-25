@@ -7,5 +7,11 @@
 </ion-header>
 
 <ion-content padding>
-  <button ion-button block (click)="onClick()">Chat Page</button>
+  <form (ngSubmit)="submit()">
+    <ion-input type="text" [(ngModel)]="loginParams.authorized_id" name="authorized_id" placeholder="ID">
+    </ion-input>
+    <ion-input type="password" [(ngModel)]="loginParams.password" name="password" placeholder="password">
+    </ion-input>
+    <button ion-button type="submit" block>submit</button>
+  </form>
 </ion-content>
