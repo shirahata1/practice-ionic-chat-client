@@ -14,11 +14,16 @@
 
 
 <ion-content padding>
-  <form (ngSubmit)="create()">
-    <ion-input type="text" [(ngModel)]="newComment.body" name="body" placeholder="text input">
-    </ion-input>
-    <button ion-button type="submit" block>submit</button>
-  </form>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-6>{{ accountService.authorizedId }}</ion-col>
+      <ion-col col-6>
+        <button ion-button block>
+          logout
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ion-scroll scrollY="true" style="height: 300px">
     <chat-comment *ngFor="let comment of comments; trackBy: trackById"
@@ -28,4 +33,10 @@
                   (onRemove)="remove($event)">
     </chat-comment>
   </ion-scroll>
+
+  <form (ngSubmit)="create()">
+    <ion-input type="text" [(ngModel)]="newComment.body" name="body" placeholder="text input">
+    </ion-input>
+    <button ion-button type="submit" block>submit</button>
+  </form>
 </ion-content>

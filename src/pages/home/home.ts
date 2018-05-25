@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ChatPage } from '../chat/chat';
-import { SessionService } from '../../lib/resources/session.service';
-import { User } from '../../lib/models/user.model';
+import { AccountService } from '../../lib/services/account.service';
 
 @Component({
   selector: 'page-home',
@@ -16,17 +15,18 @@ export class HomePage implements OnInit {
 
   constructor(
     public navCtrl: NavController,
-    public sessionService: SessionService,
+    public accountService: AccountService,
   ) {
   }
 
   ngOnInit() {
-    if (1 != 1) { this.navCtrl.push(ChatPage); }
+    console.log(this.accountService.isLoggedIn);
+    if (this.accountService.isLoggedIn) { this.navCtrl.setRoot(ChatPage); }
   }
 
   submit(){
-    this.sessionService.create<User>(this.loginParams)
-      .subscribe(user => console.dir(user));
+    this.accountService.login(this.loginParams)
+      .subscribe(user => this.navCtrl.setRoot(ChatPage));
   }
 
 }

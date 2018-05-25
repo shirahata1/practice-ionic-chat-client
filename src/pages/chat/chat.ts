@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable, Subscription } from 'rxjs/Rx';
 import * as _ from 'lodash';
 import { ChatService } from './chat.service';
+import { AccountService } from '../../lib/services/account.service';
 
 /**
  * Generated class for the ChatPage page.
@@ -34,16 +35,17 @@ export class ChatPage implements OnInit, OnDestroy {
     public navParams: NavParams,
     private http: HttpClient,
     public service: ChatService,
+    public accountService: AccountService,
   ) {}
 
   ngOnInit() {
-    this.subscription = Observable.timer(0, 4000)
-      .switchMap(_ =>this.http.get<Comment[]>(`${SETTINGS['SERVICE_URL']}api/v1/comments/`, { headers: this.getHeaders() }))
-      .subscribe(comments => this.comments = comments );
+    // this.subscription = Observable.timer(0, 4000)
+    //   .switchMap(_ =>this.http.get<Comment[]>(`${SETTINGS['SERVICE_URL']}api/v1/comments/`, { headers: this.getHeaders() }))
+    //   .subscribe(comments => this.comments = comments );
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
   }
 
   create() {
