@@ -1,8 +1,2 @@
-<ion-grid>
-  <ion-row>
-    <ion-col col-12>
-      <p [attr.text-right]="isMine() ? '' : null">{{ comment.created_at }}</p>
-      <p [attr.text-right]="isMine() ? '' : null">{{ comment.body }}</p>
-    </ion-col>
-  </ion-row>
-</ion-grid>
+<p [attr.text-right]="isMine() ? '' : null">{{ comment.created_at }}</p>
+<p [attr.text-right]="isMine() ? '' : null">{{ comment.body }}</p>
