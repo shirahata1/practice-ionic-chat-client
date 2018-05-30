@@ -17,7 +17,7 @@
 </ion-header>
 
 <ion-content #chatContent>
-  <ion-infinite-scroll position="top" (ionInfinite)="onScrollTop($event)" *ngIf="pagingEnabled">
+  <ion-infinite-scroll position="top" (ionInfinite)="onScrollTop($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 

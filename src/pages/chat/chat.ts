@@ -29,7 +29,6 @@ export class ChatPage {
     limit: 20,
   };
   @ViewChild(Content) chatContent: Content;
-  pagingEnabled = false;
 
   constructor(
     public navCtrl: NavController,
@@ -43,7 +42,7 @@ export class ChatPage {
     return this.accountService.isLoggedIn;
   }
 
-  ionViewDidEnter() {
+  ionViewDidLoad() {
     const polling = Observable.timer(4000, 4000)
       .switchMap(_ => this.commentService.search<Comment[]>(this.searchQuery))
       .map(comments => _.reverse(comments));
@@ -95,7 +94,6 @@ export class ChatPage {
   }
 
   onScrollTop(infiniteScroll: any) {
-    infiniteScroll.enable(false);
     this.searchQuery.limit = this.searchQuery.limit + 20;
     this.commentService.search<Comment[]>(this.searchQuery)
       .map(comments => _.reverse(comments))
@@ -109,8 +107,9 @@ export class ChatPage {
   private scrollToBottom() {
     // wait for this issue: https://github.com/ionic-team/ionic/issues/12309
     setTimeout(() => {
-      this.chatContent.scrollToBottom().then(() => this.pagingEnabled = true);
-    }, 400);
+      if (!this.chatContent || !this.chatContent._scroll) { return; }
+      this.chatContent.scrollToBottom(0);
+    }, 100);
   }
 
 }
