@@ -12,6 +12,7 @@ export class HomePage implements OnInit {
     authorized_id: '',
     password: '',
   }
+  errors: any;
 
   constructor(
     public navCtrl: NavController,
@@ -25,7 +26,10 @@ export class HomePage implements OnInit {
 
   submit(){
     this.accountService.login(this.loginParams)
-      .subscribe(user => this.navCtrl.setRoot(ChatPage));
+      .subscribe(
+        user => this.navCtrl.setRoot(ChatPage),
+        errors => this.errors = errors,
+      );
   }
 
 }
