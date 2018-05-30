@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ChatPage } from '../chat/chat';
 import { AccountService } from '../../lib/services/account.service';
@@ -7,7 +7,7 @@ import { AccountService } from '../../lib/services/account.service';
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage implements OnInit {
+export class HomePage {
   loginParams = {
     authorized_id: '',
     password: '',
@@ -20,8 +20,10 @@ export class HomePage implements OnInit {
   ) {
   }
 
-  ngOnInit() {
-    if (this.accountService.isLoggedIn) { this.navCtrl.setRoot(ChatPage); }
+  ionViewWillEnter() {
+    this.accountService.onLoggedIn$.subscribe(() => {
+      if (this.accountService.isLoggedIn) { this.navCtrl.setRoot(ChatPage); }
+    });
   }
 
   submit(){

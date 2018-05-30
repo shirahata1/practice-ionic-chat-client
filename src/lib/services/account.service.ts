@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs/Rx';
 import { User } from '../models/user.model';
 import { SessionService } from '../resources/session.service';
 
@@ -12,6 +12,7 @@ export class AccountService {
   public get token(): string { return this.account && this.account.token; }
   public get authorizedId(): string { return this.account && this.account.authorized_id; }
   public get id(): number { return this.account && this.account.id; }
+  public onLoggedIn$ = new Subject<any>();
   private account: User;
 
   constructor(
@@ -32,10 +33,13 @@ export class AccountService {
 
   private setAccount(account: User) {
     this.account = account;
-    this.storage.set(ACCOUNT_KEY, JSON.stringify(account));
+    this.storage.set(ACCOUNT_KEY, JSON.stringify(account)).then(() => this.onLoggedIn$.next(true));
   }
 
   private getAccount() {
-    this.storage.get(ACCOUNT_KEY).then(value => this.account = JSON.parse(value));
+    this.storage.get(ACCOUNT_KEY).then(value => {
+      this.account = JSON.parse(value);
+      this.onLoggedIn$.next(true);
+    });
   }
 }
