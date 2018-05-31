@@ -72,6 +72,10 @@
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-4.7.0.tgz#9e7c13db9f18f454d7a31a5d61d369a7db3f338c"
 
+"@ionic-native/fcm@^4.7.0":
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/fcm/-/fcm-4.7.0.tgz#ff56a24e9d9a7b0fda8fbf1b32ad8770faecf484"
+
 "@ionic-native/http@^4.7.0":
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/@ionic-native/http/-/http-4.7.0.tgz#79ed7cd004f63584f841c16f866d11d3a4b20b1a"
@@ -924,6 +928,10 @@ cordova-plugin-advanced-http@^1.11.1:
 cordova-plugin-device@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/cordova-plugin-device/-/cordova-plugin-device-2.0.2.tgz#fc08f3722e67eef7b6c67bfc99a83df6add0baba"
+
+cordova-plugin-fcm@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-fcm/-/cordova-plugin-fcm-2.1.2.tgz#5f2f7c12c16556d21d3021e7d3ad89e215825747"
 
 cordova-plugin-file@^6.0.1:
   version "6.0.1"
