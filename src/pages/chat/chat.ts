@@ -64,6 +64,7 @@ export class ChatPage {
     this.commentService.create<Comment>(this.newComment)
       .subscribe((comment) => {
         this.comments.push(comment);
+        this.comments.shift();
         this.newComment['body'] = '';
       });
   }
