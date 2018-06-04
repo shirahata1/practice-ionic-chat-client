@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 import { ChatPage } from '../chat/chat';
 import { AccountService } from '../../lib/services/account.service';
 
@@ -17,6 +17,7 @@ export class HomePage {
   constructor(
     public navCtrl: NavController,
     public accountService: AccountService,
+    private loadingController: LoadingController,
   ) {
   }
 
@@ -27,10 +28,19 @@ export class HomePage {
   }
 
   submit(){
+    const loader = this.loadingController.create();
+    loader.present();
+
     this.accountService.login(this.loginParams)
       .subscribe(
-        user => this.navCtrl.setRoot(ChatPage),
-        errors => this.errors = errors,
+        user => {
+          loader.dismiss();
+          this.navCtrl.setRoot(ChatPage);
+        },
+        errors => {
+          this.errors = errors;
+          loader.dismiss();
+        },
       );
   }
 

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Content, LoadingController } from 'ionic-angular';
 import { Observable, Subscription } from 'rxjs/Rx';
 import * as _ from 'lodash';
 import { ChatService } from './chat.service';
@@ -36,6 +36,7 @@ export class ChatPage {
     public service: ChatService,
     public accountService: AccountService,
     public commentService: CommentService,
+    private loadingController: LoadingController,
   ) {}
 
   ionViewCanEnter(): boolean {
@@ -57,24 +58,37 @@ export class ChatPage {
   }
 
   ionViewWillLeave() {
-    this.subscription.unsubscribe();
+    if (this.subscription) { this.subscription.unsubscribe(); }
   }
 
   create() {
+    const loader = this.loadingController.create();
+    loader.present();
+
     this.commentService.create<Comment>(this.newComment)
-      .subscribe((comment) => {
-        this.comments.push(comment);
-        this.comments.shift();
-        this.newComment['body'] = '';
-      });
+      .subscribe(
+        (comment) => {
+          this.comments.push(comment);
+          this.comments.shift();
+          this.newComment['body'] = '';
+          loader.dismiss();
+        },
+        () => loader.dismiss(),
+      );
   }
 
   update(comment: Comment) {
+    const loader = this.loadingController.create();
+    loader.present();
+
     this.commentService.update<Comment>(comment.id, comment)
-      .subscribe((updatedComment) => {
-        const i = _.findIndex(this.comments, (_comment) => _comment.id === updatedComment.id);
-        this.comments[i] = updatedComment;
-      });
+      .subscribe(
+        (updatedComment) => {
+          const i = _.findIndex(this.comments, (_comment) => _comment.id === updatedComment.id);
+          this.comments[i] = updatedComment;
+        },
+        () => loader.dismiss(),
+      );
   }
 
   remove(comment: Comment) {
